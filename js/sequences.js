@@ -7,7 +7,6 @@ window.addEventListener("resize", function() {
   
       width=window.innerWidth
     height=window.innerHeight
-    console.log(window.innerWidth)
     if(window.innerWidth==413 || window.innerWidth==754 || window.innerWidth==1760 ||window.innerWidth==880){
       console.log("reload")
       this.location=window.location
