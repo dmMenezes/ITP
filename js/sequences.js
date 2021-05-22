@@ -1,14 +1,18 @@
 // Dimensions of sunburst.
-var width = window.innerWidth;
-var height =  window.innerHeight;
+var width = window.innerWidth*0.8;
+var height =  window.innerHeight*0.8;
 var radius = Math.min(width,height) / 2;
 
 window.addEventListener("resize", function() { 
   
-      width=window.innerWidth*0.8
-    height=window.innerHeight*0.8
-    var radius = Math.min(width,height) / 2;
-    console.log(radius)
+      width=window.innerWidth
+    height=window.innerHeight
+    console.log(window.innerWidth)
+    if(window.innerWidth==413 || window.innerWidth==754 || window.innerWidth==1760 ||window.innerWidth==880){
+      console.log("reload")
+      this.location=window.location
+    }
+    
 });
 
 
@@ -17,7 +21,6 @@ var b = {
   w: window.innerWidth*0.2, h: 30, s: 3, t: 10
 };
 
-// Mapping of step names to colors.
 var colors = {
   "total": "#5687d1",
   "locked": "#de783b",
@@ -37,6 +40,9 @@ var colors = {
   "end": "#bbbbbb"
 };
 
+
+
+
 // Total size of all segments; we set this later, after loading the data.
 var totalSize = 0; 
 
@@ -47,7 +53,6 @@ var vis = d3.select("#chart").append("svg:svg")
     .attr("id", "container")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
- 
 var partition = d3.partition()
     .size([2 * Math.PI, radius * radius]);
 
@@ -56,8 +61,6 @@ var arc = d3.arc()
     .endAngle(function(d) { return d.x1; })
     .innerRadius(function(d) { return Math.sqrt(d.y0); })
     .outerRadius(function(d) { return Math.sqrt(d.y1); });
-
-    
 
 // Use d3.text and d3.csvParseRows so that we do not need to have a header
 // row, and can receive the csv as an array of arrays.
@@ -102,8 +105,6 @@ function createVisualization(json) {
       .style("opacity", 1)
       .on("mouseover", mouseover);
 
-      
-     
   // Add the mouseleave handler to the bounding circle.
   d3.select("#container").on("mouseleave", mouseleave);
 
@@ -114,14 +115,43 @@ function createVisualization(json) {
 // Fade all but the current sequence, and show it in the breadcrumb trail.
 function mouseover(d) {
 
+
   var percentage = (100 * d.value / totalSize).toPrecision(3);
-  var percentageString = percentage + "%";
+  var amount = d.value;
+  var percentageString = percentage + "%" ;
   if (percentage < 0.1) {
     percentageString = "< 0.1%";
   }
+  
 
+  
+
+  var details = {
+    "total": "Toatal minted tokens, 250,000,000",
+    "locked": "70% of tokens are locked, and are released as per the following schedule, 175,000,000",
+    "airdrop": "1% of tokens have been distributed to the followers through airdrop campain, 2,500,000",
+    "liquidity": "30% of token are released as following, 75,000,000",
+    "presale" : "2% are offered in pre-sale to the public, 5,000,000",
+    "marketing 2021":"15% tokens are allocated to marketing of the project, 37,500,000",
+    "team resources":"2% are reserved as team resources, 5,000,000",
+    "2022": "20% of tokens are scheduled to be released in 2022, 50,000,000",
+    "2023" :"20% of tokens are scheduled to be released in 2023, 50,000,000",
+    "2024" : "20% of tokens are scheduled to be released in 2024, 50,000,000",
+    "q1":"5% tokens will be released in first quarter out of 20%, 12,500,000",
+    "q2":"5% tokens will be released in second quarter out of 20%v",
+    "q3":"5% tokens will be released in third quarter out of 20%, 12,500,000",
+    "q4":"5% tokens will be released in fourth quarter out of 20%, 12,500,000",
+    "burn":"10% of the tokens will be burned in stages unannounced, 25,000,000"
+  };
+  var dname = d.data.name;
+  //console.log(details[dname]);
+  var amountString =  details[dname];
+  
   d3.select("#percentage")
       .text(percentageString);
+
+  d3.select("#amount")
+      .text(amountString);
 
   d3.select("#explanation")
       .style("visibility", "");
@@ -155,7 +185,7 @@ function mouseleave(d) {
   // Transition each segment to full opacity and then reactivate it.
   d3.selectAll("path")
       .transition()
-      .duration(1000)
+      .duration(100)
       .style("opacity", 1)
       .on("end", function() {
               d3.select(this).on("mouseover", mouseover);

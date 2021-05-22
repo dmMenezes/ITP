@@ -21,7 +21,8 @@
 }
 
 #chart {
-    position: relative;
+    position: inherit;
+    margin-bottom: 50px;;
 }
 
 #chart path {
@@ -30,14 +31,22 @@
 
 #explanation {
     position: absolute;
-    top: 260px;
-    left: 305px;
-    width: 140px;
-    text-align: center;
-    color: rgb(255, 255, 255);
+    /* top: 260px;
+    left: 305px; */
+    text-align: justify;
+    padding-bottom: 1px;
+    color: rgb(7, 7, 7);
     z-index: -1;
+    display:inline-block;
 }
 
 #percentage {
     font-size: 2.5em;
 }
+
+#amount {
+    font-size: 1.2em;
+}
+
+
+
