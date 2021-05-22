@@ -8,8 +8,9 @@ width = widths.replace(/\D+$/g, "")
 var height = width*1.2;
 console.log(width,height)
 var radius = width / 2;
+console.log(width,height)
 
-window.addEventListener("resize", function() { 
+/*window.addEventListener("resize", function() { 
   
     cwidth=window.innerWidth
     cheight=window.innerHeight
@@ -18,7 +19,7 @@ window.addEventListener("resize", function() {
       this.location=window.location
     }
     
-});
+});*/
 
 var b = {
   w: 150, h: 30, s: 3, t: 10
